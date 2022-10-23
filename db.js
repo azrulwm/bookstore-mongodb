@@ -1,12 +1,15 @@
 const { MongoClient } = require("mongodb");
+const mongoose = require("mongoose");
 
 let dbConnection;
 
 module.exports = {
   connectToDb: async (cb) => {
     try {
-      const client = await MongoClient.connect("mongodb://localhost:27017");
-      dbConnection = client.db("bookstore");
+      const client = await mongoose.connect(
+        "mongodb://localhost:27017/bookstore"
+      );
+      dbConnection = client.db();
       console.log(dbConnection);
       return cb();
     } catch (err) {
