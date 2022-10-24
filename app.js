@@ -13,23 +13,31 @@ connectToDb((err) => {
       console.log("app listening on port 3000");
     });
     db = getDb();
+    console.log(db);
   }
 });
 
 //routes
 app.get("/books", (req, res) => {
-  let books = [];
+  const collection = db.collection("books");
+  collection.find({}).toArray(function (err, data) {
+    console.log(data);
+  });
+  // let books = [];
 
-  db.collection("books")
-    .find()
-    .sort({ author: 1 })
-    .forEach((book) => books.push(book))
-    .then(() => {
-      res.status(200).json(books);
-    })
-    .catch(() => {
-      res.status(500).json({ error: "Could not fetch the documents" });
-    });
+  // const collection = db.collection("books");
+  // console.log(collection);
 
-  res.json({ mssg: "welcome to the API" });
+  // collection
+  //   .find()
+  //   .sort({ author: 1 })
+  //   .forEach((book) => books.push(book))
+  //   .then(() => {
+  //     res.status(200).json(books);
+  //   })
+  //   .catch(() => {
+  //     res.status(500).json({ error: "Could not fetch the documents" });
+  //   });
+
+  // res.json({ mssg: "welcome to the API" });
 });
