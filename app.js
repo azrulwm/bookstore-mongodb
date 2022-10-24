@@ -7,27 +7,23 @@ const app = express();
 // db connection
 let db;
 
-connectToDb((err) => {
+connectToDb(async (err) => {
   if (!err) {
     app.listen(3000, () => {
       console.log("app listening on port 3000");
+      db = getDb();
     });
-    db = getDb();
-    console.log(db);
+
+    console.log("wildcard");
+    console.log(db, "app.js");
   }
 });
 
 //routes
 app.get("/books", (req, res) => {
-  const collection = db.collection("books");
-  collection.find({}).toArray(function (err, data) {
-    console.log(data);
-  });
   // let books = [];
-
   // const collection = db.collection("books");
   // console.log(collection);
-
   // collection
   //   .find()
   //   .sort({ author: 1 })
@@ -38,6 +34,5 @@ app.get("/books", (req, res) => {
   //   .catch(() => {
   //     res.status(500).json({ error: "Could not fetch the documents" });
   //   });
-
   // res.json({ mssg: "welcome to the API" });
 });
