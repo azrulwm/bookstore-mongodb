@@ -19,15 +19,22 @@ connectToDb((err) => {
   }
 });
 
-//routes
+//ROUTES
+
 //get all documents
 app.get("/books", (req, res) => {
+  //current page
+  const page = req.query.p || 0;
+  const booksPerPage = 1;
+
   let books = [];
   const collection = db.collection("books");
   // console.log(collection);
   collection
     .find()
     .sort({ author: 1 })
+    .skip(page * booksPerPage)
+    .limit(booksPerPage)
     .forEach((book) => books.push(book))
     .then(() => {
       res.status(200).json(books);
